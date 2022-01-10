@@ -1,5 +1,4 @@
 [submodule "dms-backend"]
 	path = dms-backend
-	url = git@github.com:arcticportal/dms-backend.git
-[submodule "git@github.com:arcticportal/dms-backend.git"]
+	url = https://github.com/arcticportal/dms-backend.git
 	branch = main

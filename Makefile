@@ -45,6 +45,8 @@ superuser:
 	$(MNG) createsuperuser
 collectstatic:
 	$(MNG) collectstatic --no-input --clear
+jupyter:
+	$(MNG) shell_plus --notebook
 flake8:
 	$(PY) flake8 .
 black:

@@ -52,7 +52,8 @@ services:
         networks:
             - dms-network
         ports:
-            - "8000:8000"
+            - "8000:8000" # webserver 
+            - "8888:8888" # jupyter notebook
         user: ${USER_PYTHON}
         volumes:
             # - ./conf/l:/usr/local/bin/l

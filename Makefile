@@ -22,11 +22,11 @@ logs:
 #======================= POSTGRESQL_DB =================================
 #=======================================================================
 db-dump:
-	$(DC) exec postgres sh -c\
-	  "pg_dump $(DATABASE_NAME) -U $(DATABASE_USERNAME) >$(DUMP)"
+	$(DC) exec postgres /bin/sh -c\
+	  "pg_dump $(DATABASE_NAME) -U $(DATABASE_USERNAME) -h $(DATABASE_HOST) > $(DUMP)"
 db-load:
 	$(DC) exec postgres /bin/sh -c\
-	"psql -d $(DATABASE_NAME) -U $(DATABASE_USERNAME) <$(DUMP)"
+	"psql -d $(DATABASE_NAME) -U $(DATABASE_USERNAME) -h $(DATABASE_HOST) < $(DUMP)"
 
 #======================= PYTHON_DJANGO =================================
 #=======================================================================

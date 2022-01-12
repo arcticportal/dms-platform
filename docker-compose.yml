@@ -28,7 +28,7 @@ services:
         volumes:
             - postgis-data:/var/lib/postgresql
             # - ./conf/l:/usr/local/bin/l
-        #     - ./conf/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+            - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
     # =================REDIS=CACHING=======================
     # redis:
     #     image: redis:6-alpine

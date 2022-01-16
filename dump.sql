@@ -2455,6 +2455,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+1	pbkdf2_sha256$260000$qWOlas8kQAAVeDudyQa6eD$d54kiiA+v84vpnpweZa7HSB9BM06qH7xmBCOrbko/Gs=	2022-01-12 21:56:53.604436+00	t	admin				t	t	2022-01-12 21:56:45.334346+00
 \.
 
 
@@ -2712,6 +2713,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 --
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+dhypzmjkmmyy8ts30k9ub23ar6pfoisn	.eJxVjMsOwiAQRf-FtSE8Boou3fsNhIEZqRqalHZl_HfbpAvd3nPOfYuY1qXGtdMcxyIuQovT74YpP6ntoDxSu08yT22ZR5S7Ig_a5W0q9Loe7t9BTb1utYUwWM_oAEkpymVgA8qhD2ydIecpQAk6s2ay5PEM7HlrgjElZTDi8wXeuTfn:1n7lbx:xav8-ynQaBylcF7cc642JjtnqBDMaesHVIpfh4K__bY	2022-01-26 21:56:53.612671+00
 \.
 
 
@@ -3128,7 +3130,7 @@ SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
 -- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.auth_user_id_seq', 1, false);
+SELECT pg_catalog.setval('public.auth_user_id_seq', 1, true);
 
 
 --

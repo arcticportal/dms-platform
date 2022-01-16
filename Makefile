@@ -60,8 +60,8 @@ pytest:
 pytest-html:
 	$(PY) pytest -p no:warnings --cov=. --cov-report html
 isort:
-	$(PY) isort . --check-only --skip env --skip migrations
+	$(PY) isort . --check-only --skip venv --skip migrations
 isort-diff:
-	$(PY) isort . --diff --skip env --skip migrations
+	$(PY) isort . --diff --skip venv --skip migrations
 isort-exec:
-	$(PY) isort . --skip env --skip migrations
+	$(PY) isort . --skip venv --skip migrations

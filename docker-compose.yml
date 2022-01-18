@@ -69,7 +69,7 @@ services:
         depends_on:
           - dms-backend
           - redis
-        command: celery -A arcticrisk worker --beat -S django -l INFO
+        command: celery -A dms worker --beat -S django.celery -l INFO
         env_file:
             - .env
         environment:

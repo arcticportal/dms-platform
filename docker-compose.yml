@@ -27,14 +27,13 @@ services:
         #     retries: 5
         volumes:
             - postgis-data:/var/lib/postgresql
-            # - ./conf/l:/usr/local/bin/l
             - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
     # =================REDIS=CACHING=======================
-    # redis:
-    #     image: redis:6-alpine
-    #     container_name: redis
-    #     networks:
-    #         - dms-network
+    redis:
+        image: redis:6-alpine
+        container_name: redis
+        networks:
+            - dms-network
 
     # =================DJANGO=SERVICE======================
     dms-backend:
@@ -56,11 +55,34 @@ services:
             - "8888:8888" # jupyter notebook
         user: ${USER_PYTHON}
         volumes:
-            # - ./conf/l:/usr/local/bin/l
-            # - ./${INBOX}:${OUTBOX}
             - ./dms-backend:${DIR_PYTHON}
             - media_volume:${DIR_PYTHON}/media
             - static_volume:${DIR_PYTHON}/staticfiles
+
+     # =================CELERY=SERVICE=======================
+
+    celery:
+        build:
+            context: dms-backend
+            dockerfile: Dockerfile
+        container_name: celery
+        depends_on:
+          - dms-backend
+          - redis
+        command: celery -A arcticrisk worker --beat -S django -l INFO
+        env_file:
+            - .env
+        environment:
+            DEBUG: ${DEBUG}
+            DJANGO_ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+            CELERY_BROKER: ${CELERY_BROKER}
+            CELERY_BACKEND: ${CELERY_BACKEND}
+            SECRET_KEY: ${SECRET_KEY}
+            BASE_URL: ${BASE_URL}
+        volumes:
+            - ./dms-backend:${DIR_PYTHON}
+        networks:
+            - dms-network
 
     # =================NGINX=SERVICE=======================
     platform-nginx:
@@ -77,8 +99,6 @@ services:
             - "80:80"
         restart: always
         # volumes:
-        # - ./conf/l:/usr/local/bin/l
-        # - ./conf/default.conf:/etc/nginx/conf.d/default.conf
         # - media_volume:${DIR_NGINX}/media
         # - static_volume:${DIR_NGINX}/staticfiles
 

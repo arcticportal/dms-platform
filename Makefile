@@ -47,6 +47,8 @@ collectstatic:
 	$(MNG) collectstatic --no-input --clear
 jupyter:
 	$(MNG) shell_plus --notebook
+db-diagram:
+	$(MNG) graph_models utils users administrative_area civic_structure landform tourist_attraction -g -n -o db_diagram.png
 flake8:
 	$(PY) flake8 .
 black:

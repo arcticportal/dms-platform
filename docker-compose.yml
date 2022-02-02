@@ -56,7 +56,7 @@ services:
         user: ${USER_PYTHON}
         volumes:
             - ./dms-backend:${DIR_PYTHON}
-            - ./dms-jupyter:${DIR_PYTHON}/dms-jupyter
+            - ./dms-jupyter:${DIR_PYTHON}/dms-jupyter/
             - media_volume:${DIR_PYTHON}/media
             - static_volume:${DIR_PYTHON}/staticfiles
 

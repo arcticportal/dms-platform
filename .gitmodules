@@ -6,3 +6,7 @@
 	path = dms-jupyter
 	url = https://github.com/arcticportal/dms-jupyter.git
 	branch = main
+[submodule "dms-frontend"]
+	path = dms-frontend
+	url = https://github.com/arcticportal/dms-frontend.git
+	branch = main

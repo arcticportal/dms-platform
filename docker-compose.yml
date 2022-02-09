@@ -42,8 +42,8 @@ services:
             dockerfile: Dockerfile
         container_name: backend
         depends_on:
-            # redis:
-            #   condition: service_started
+            redis:
+              condition: service_started
             postgres:
                 condition: service_healthy
         env_file:
@@ -84,6 +84,25 @@ services:
             - ./dms-backend:${DIR_PYTHON}
         networks:
             - dms-network
+
+    dms-frontend:
+        build:
+            context: dms-frontend
+            dockerfile: Dockerfile
+        command: npm start
+        container_name: frontend
+        depends_on:
+            - dms-backend
+        env_file:
+            - .env
+        ports:
+            - "3000:3000"
+        networks:
+            - dms-network
+        user: ${USER_NODE}
+        volumes:
+            - ./dms-frontend:${DIR_NODE}
+            - '${DIR_NODE}/node_modules'
 
     # =================NGINX=SERVICE=======================
     platform-nginx:

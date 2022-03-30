@@ -43,7 +43,7 @@ services:
         container_name: backend
         depends_on:
             redis:
-              condition: service_started
+                condition: service_started
             postgres:
                 condition: service_healthy
         env_file:
@@ -60,7 +60,7 @@ services:
             - media_volume:${DIR_PYTHON}/media
             - static_volume:${DIR_PYTHON}/staticfiles
 
-     # =================CELERY=SERVICE=======================
+    # =================CELERY=SERVICE=======================
 
     celery:
         build:
@@ -68,8 +68,8 @@ services:
             dockerfile: Dockerfile
         container_name: celery
         depends_on:
-          - dms-backend
-          - redis
+            - dms-backend
+            - redis
         command: celery -A dms worker --beat -S django.celery -l INFO
         env_file:
             - .env
@@ -85,10 +85,18 @@ services:
         networks:
             - dms-network
 
+    # =================FRONTEND=REACT=APP=======================
+    # For hot reload to work need to bind same port on host and
+    # docker image for websockets to work correctly
+
     dms-frontend:
         build:
             context: dms-frontend
             dockerfile: Dockerfile
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        stdin_open: true
+        tty: true
         command: npm start
         container_name: frontend
         depends_on:
@@ -103,6 +111,34 @@ services:
         volumes:
             - ./dms-frontend:${DIR_NODE}
             - '${DIR_NODE}/node_modules'
+
+    # =================NEW=FRONTEND=======================
+    # For hot reload to work need to bind same port on host and
+    # docker image for websockets to work correctly
+
+
+    # dms-frontend-new:
+    #     build:
+    #         context: dms-frontend-new
+    #         dockerfile: Dockerfile
+    #     environment:
+    #         - CHOKIDAR_USEPOLLING=true
+    #     stdin_open: true
+    #     tty: true
+    #     command: pnpm run dev
+    #     container_name: frontend-ts
+    #     depends_on:
+    #         - dms-backend
+    #     env_file:
+    #         - .env
+    #     ports:
+    #         - "3000:3000"
+    #     networks:
+    #         - dms-network
+    #     user: ${USER_NODE}
+    #     volumes:
+    #         - ./dms-frontend-new:${DIR_NODE}
+    #         - ${DIR_NODE}/node_modules
 
     # =================NGINX=SERVICE=======================
     platform-nginx:

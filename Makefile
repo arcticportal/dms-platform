@@ -3,6 +3,7 @@ DC = $(SUDO) docker-compose -f $(YML)
 DUMP = /docker-entrypoint-initdb.d/dump.sql
 PY = $(DC) exec dms-backend
 MNG = $(DC) exec dms-backend python manage.py
+NODE = $(DC) exec dms-frontend
 
 #======================= CONTAINERS_MANAGEMENT =========================
 #=======================================================================
@@ -67,3 +68,14 @@ isort-diff:
 	$(PY) isort . --diff --skip venv --skip migrations
 isort-exec:
 	$(PY) isort . --skip venv --skip migrations
+
+
+#======================= NODEJS_REACT ==================================
+#=======================================================================
+
+build-node:
+	$(NODE) npm run build
+eslint:
+	$(NODE) npm run lint
+prettier:
+	$(NODE) npm run format
